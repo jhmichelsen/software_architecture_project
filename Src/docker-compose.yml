@@ -1,0 +1,87 @@
+version: '3.9'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"     # RabbitMQ broker port
+      - "15672:15672"   # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - greenhouse-net
+
+  greenhousefactoryui:
+    build:
+      context: ./Src/GreenHouseFactoryUI
+      dockerfile: Dockerfile
+    container_name: greenhousefactoryui
+    depends_on:
+      - greenhousefactoryservice
+    networks:
+      - greenhouse-net
+    ports:
+      - "5001:80"
+
+  greenhousefactoryservice:
+    build:
+      context: ./Src/GreenhouseFactoryService
+      dockerfile: Dockerfile
+    container_name: greenhousefactoryservice
+    depends_on:
+      - rabbitmq
+    networks:
+      - greenhouse-net
+    ports:
+      - "5002:80"
+
+  simulatorui:
+    build:
+      context: ./Src/SimulatorUI
+      dockerfile: Dockerfile
+    container_name: simulatorui
+    depends_on:
+      - rabbitmq
+    networks:
+      - greenhouse-net
+    ports:
+      - "5003:80"
+    environment:
+      - RabbitMq__Host=rabbitmq
+      - RabbitMq__Port=5672
+
+  soilmoistureservice:
+    build:
+      context: ./Src/SoilMoistureService
+      dockerfile: Dockerfile
+    container_name: soilmoistureservice
+    depends_on:
+      - rabbitmq
+    networks:
+      - greenhouse-net
+    ports:
+      - "5004:80"
+    environment:
+      - RabbitMq__Host=rabbitmq
+      - RabbitMq__Port=5672
+
+  waterservice:
+    build:
+      context: ./Src/WaterService
+      dockerfile: Dockerfile
+    container_name: waterservice
+    depends_on:
+      - rabbitmq
+    networks:
+      - greenhouse-net
+    ports:
+      - "5005:80"
+    environment:
+      - RabbitMq__Host=rabbitmq
+      - RabbitMq__Port=5672
+
+networks:
+  greenhouse-net:
+    driver: bridge
