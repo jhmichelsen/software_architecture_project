@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{0F954AF2-D648-4E82-9553-D628044EF2A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\Persistence.csproj", "{74CB763C-9323-4B49-B6A1-E95CC72F3514}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Integration.GreenHouseFactoryService", "Infrastructure.Integration.GreenHouseFactoryService\Infrastructure.Integration.GreenHouseFactoryService.csproj", "{2093124B-30D8-4C79-8D71-26A01D4000CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,12 +28,12 @@ Global
 		{787DD9A7-2FF1-4341-AE6B-6727C1C993D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{787DD9A7-2FF1-4341-AE6B-6727C1C993D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{787DD9A7-2FF1-4341-AE6B-6727C1C993D5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{74CB763C-9323-4B49-B6A1-E95CC72F3514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74CB763C-9323-4B49-B6A1-E95CC72F3514}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74CB763C-9323-4B49-B6A1-E95CC72F3514}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74CB763C-9323-4B49-B6A1-E95CC72F3514}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2093124B-30D8-4C79-8D71-26A01D4000CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2093124B-30D8-4C79-8D71-26A01D4000CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2093124B-30D8-4C79-8D71-26A01D4000CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2093124B-30D8-4C79-8D71-26A01D4000CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{74CB763C-9323-4B49-B6A1-E95CC72F3514} = {0F954AF2-D648-4E82-9553-D628044EF2A8}
+		{2093124B-30D8-4C79-8D71-26A01D4000CF} = {0F954AF2-D648-4E82-9553-D628044EF2A8}
 	EndGlobalSection
 EndGlobal
