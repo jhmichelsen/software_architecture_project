@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using GreenHouseApi.Data;
+using GreenHouseFactoryUI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

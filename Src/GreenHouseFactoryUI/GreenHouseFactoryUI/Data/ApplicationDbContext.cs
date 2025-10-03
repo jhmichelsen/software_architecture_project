@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace GreenHouseApi.Data;
+namespace GreenHouseFactoryUI.Data;
 
 public class ApplicationDbContext : IdentityDbContext
 {

@@ -1,4 +1,4 @@
-namespace GreenHouseApi.Models;
+namespace GreenHouseFactoryUI.Models;
 
 public class ErrorViewModel
 {
