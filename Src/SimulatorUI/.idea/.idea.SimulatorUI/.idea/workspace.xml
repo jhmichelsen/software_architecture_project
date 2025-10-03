@@ -9,15 +9,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9f7c6bec-b96d-435d-9ff2-47afcd55c7b3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SimulatorUI/Controllers/GreenHouseSimulatorController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SimulatorUI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SimulatorUI/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Class1.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Domain/Class1.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Domain/WeatherForecast.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimulatorUI/Controllers/WeatherForecastController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimulatorUI/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SimulatorUI/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimulatorUI/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/SimulatorUI/Properties/launchSettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimulatorUI/SimulatorUI.http" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,8 +23,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Domain/Class1.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SimulatorUI/Controllers/GreenHouseSimulatorController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/JHMic/Documents/Code/software_architecture_project/Src/SimulatorUI/SimulatorUI/Controllers/GreenHouseSimulatorController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/JHMic/Documents/Code/software_architecture_project/Src/SimulatorUI/SimulatorUI/Program.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
@@ -126,7 +118,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1759512425003</updated>
-      <workItem from="1759512426083" duration="1643000" />
+      <workItem from="1759512426083" duration="2344000" />
     </task>
     <servers />
   </component>
