@@ -1,6 +1,0 @@
-@SimulatorUI_HostAddress = http://localhost:5140
-
-GET {{SimulatorUI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
