@@ -1,0 +1,7 @@
+﻿services:
+  simulatorui:
+    image: simulatorui
+    build:
+      context: .
+      dockerfile: Dockerfile
+
