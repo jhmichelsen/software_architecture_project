@@ -1,5 +1,4 @@
-version: '3.9'
-
+#version: '3.9'
 services:
   rabbitmq:
     image: rabbitmq:3-management
@@ -15,7 +14,7 @@ services:
 
   greenhousefactoryui:
     build:
-      context: ./Src/GreenHouseFactoryUI
+      context: ./GreenHouseFactoryUI/GreenHouseFactoryUI
       dockerfile: Dockerfile
     container_name: greenhousefactoryui
     depends_on:
@@ -23,11 +22,11 @@ services:
     networks:
       - greenhouse-net
     ports:
-      - "5001:80"
+      - "5001:8080"
 
   greenhousefactoryservice:
     build:
-      context: ./Src/GreenhouseFactoryService
+      context: ./GreenhouseFactoryService/GreenhouseFactoryService
       dockerfile: Dockerfile
     container_name: greenhousefactoryservice
     depends_on:
@@ -35,11 +34,11 @@ services:
     networks:
       - greenhouse-net
     ports:
-      - "5002:80"
+      - "5002:8080"
 
   simulatorui:
     build:
-      context: ./Src/SimulatorUI
+      context: ./SimulatorUI/SimulatorUI
       dockerfile: Dockerfile
     container_name: simulatorui
     depends_on:
@@ -47,14 +46,14 @@ services:
     networks:
       - greenhouse-net
     ports:
-      - "5003:80"
+      - "5003:8080"
     environment:
       - RabbitMq__Host=rabbitmq
       - RabbitMq__Port=5672
 
   soilmoistureservice:
     build:
-      context: ./Src/SoilMoistureService
+      context: ./SoilMoistureService/SoilMoistureService
       dockerfile: Dockerfile
     container_name: soilmoistureservice
     depends_on:
@@ -62,14 +61,14 @@ services:
     networks:
       - greenhouse-net
     ports:
-      - "5004:80"
+      - "5004:8080"
     environment:
       - RabbitMq__Host=rabbitmq
       - RabbitMq__Port=5672
 
   waterservice:
     build:
-      context: ./Src/WaterService
+      context: ./WaterService/WaterService
       dockerfile: Dockerfile
     container_name: waterservice
     depends_on:
@@ -77,7 +76,7 @@ services:
     networks:
       - greenhouse-net
     ports:
-      - "5005:80"
+      - "5005:8080"
     environment:
       - RabbitMq__Host=rabbitmq
       - RabbitMq__Port=5672
