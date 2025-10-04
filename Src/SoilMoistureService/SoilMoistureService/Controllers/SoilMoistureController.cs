@@ -1,15 +1,15 @@
 ﻿using MassTransit;
+using Messaging.SoilMoistureEvents;
 using Microsoft.AspNetCore.Mvc;
-using SimulatorUI.Events;
 
-namespace SimulatorUI.Controllers;
+namespace SoilMoistureService.Controllers;
 
 [ApiController]
-[Route("greenhouse-simulator/simulate")]
-public class GreenHouseSimulatorController(ILogger<GreenHouseSimulatorController> logger, IPublishEndpoint publishEndpoint) : ControllerBase
+[Route("soil-moisture-test")]
+public class SoilMoistureController(ILogger<SoilMoistureController> logger, IPublishEndpoint publishEndpoint) : ControllerBase
 {
     [HttpPost("factory/{factoryId}/green-house/{greenhouseId}/soil-moisture/{percentage}")]
-    public async Task<IActionResult> TriggerSoilMoisture(int factoryId, int greenhouseId, int percentage)
+    public async Task<IActionResult> TriggerSoilMoistureTestEvent(int factoryId, int greenhouseId, int percentage)
     {
         await publishEndpoint.Publish(new SoilMoistureEvent
         {
@@ -17,7 +17,6 @@ public class GreenHouseSimulatorController(ILogger<GreenHouseSimulatorController
             GreenHouseId = greenhouseId,
             SolMoisturePercentage = percentage
         });
-        
         return Ok();
     }
 }

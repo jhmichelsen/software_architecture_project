@@ -1,3 +1,5 @@
+using MassTransit;
+
 namespace SoilMoistureService;
 
 public class Program
@@ -12,6 +14,20 @@ public class Program
         
         builder.Services.AddControllers();
 
+        var rabbitHost = builder.Configuration["RabbitMq:Host"] ?? "localhost";
+        var rabbitPort = int.Parse(builder.Configuration["RabbitMq:Port"] ?? "5672");
+        builder.Services.AddMassTransit(x =>
+        {
+            x.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.Host(rabbitHost, "/", h =>
+                {
+                    h.Username("guest");
+                    h.Password("guest");
+                });
+            });
+        });
+        
         var app = builder.Build();
         app.UseSwagger();
         app.UseSwaggerUI();
