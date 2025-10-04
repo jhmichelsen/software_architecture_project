@@ -10,6 +10,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9f7c6bec-b96d-435d-9ff2-47afcd55c7b3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SimulatorUI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SimulatorUI/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimulatorUI/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/SimulatorUI/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,8 +135,17 @@
       <workItem from="1759523472807" duration="236000" />
       <workItem from="1759524746466" duration="720000" />
       <workItem from="1759525929030" duration="816000" />
-      <workItem from="1759575920780" duration="1379000" />
+      <workItem from="1759575920780" duration="3798000" />
     </task>
+    <task id="LOCAL-00001" summary="Add readme">
+      <option name="closed" value="true" />
+      <created>1759580195893</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1759580195893</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -168,6 +178,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Add readme" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add readme" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
