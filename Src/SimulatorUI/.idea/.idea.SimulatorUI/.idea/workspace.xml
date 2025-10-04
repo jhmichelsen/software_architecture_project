@@ -8,7 +8,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9f7c6bec-b96d-435d-9ff2-47afcd55c7b3" name="Changes" comment="" />
+    <list default="true" id="9f7c6bec-b96d-435d-9ff2-47afcd55c7b3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.SimulatorUI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SimulatorUI/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,9 +23,12 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock://C:/Users/JHMic/Documents/Code/software_architecture_project/Src/GreenhouseFactoryService/GreenhouseFactoryService/Program.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SimulatorUI/Controllers/GreenHouseSimulatorController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/JHMic/Documents/Code/software_architecture_project/Src/SimulatorUI/SimulatorUI/Controllers/GreenHouseSimulatorController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/JHMic/Documents/Code/software_architecture_project/Src/SimulatorUI/SimulatorUI/Program.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/JHMic/Documents/Code/software_architecture_project/Src/SoilMoistureService/SoilMoistureService/Program.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/JHMic/Documents/Code/software_architecture_project/Src/WaterService/WaterService/Program.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/JHMic/Documents/Code/software_architecture_project/Src/WaterService/WaterService/Program.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -129,6 +134,7 @@
       <workItem from="1759523472807" duration="236000" />
       <workItem from="1759524746466" duration="720000" />
       <workItem from="1759525929030" duration="816000" />
+      <workItem from="1759575920780" duration="1379000" />
     </task>
     <servers />
   </component>
