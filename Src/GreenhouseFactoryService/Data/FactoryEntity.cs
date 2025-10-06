@@ -1,6 +1,10 @@
-﻿namespace Data;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class Factory
+namespace Data;
+
+public class FactoryEntity
 {
-    
+    [Key]
+    public int Id { get; set; }
+    public string Location { get; set; }
 }

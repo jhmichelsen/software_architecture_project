@@ -25,7 +25,7 @@ services:
 
   greenhousefactoryservice:
     build:
-      context: ./GreenhouseFactoryService/GreenhouseFactoryService
+      context: ./GreenhouseFactoryService
       dockerfile: Dockerfile
     container_name: greenhousefactoryservice
     depends_on:
