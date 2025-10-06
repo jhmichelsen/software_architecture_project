@@ -1,6 +1,6 @@
 ﻿using MassTransit;
+using Messaging.Contract;
 using Microsoft.AspNetCore.Mvc;
-using SimulatorUI.Events;
 
 namespace SimulatorUI.Controllers;
 
@@ -11,6 +11,7 @@ public class GreenHouseSimulatorController(ILogger<GreenHouseSimulatorController
     [HttpPost("factory/{factoryId}/green-house/{greenhouseId}/soil-moisture/{percentage}")]
     public async Task<IActionResult> TriggerSoilMoisture(int factoryId, int greenhouseId, int percentage)
     {
+        Console.WriteLine($"Triggering soil-moisture {factoryId}-{greenhouseId}-{percentage}");
         await publishEndpoint.Publish(new SoilMoistureEvent
         {
             FactoryId = factoryId,

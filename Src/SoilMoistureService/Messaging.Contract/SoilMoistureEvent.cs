@@ -1,4 +1,4 @@
-﻿namespace SimulatorUI.Events;
+﻿namespace Messaging.Contract;
 
 public class SoilMoistureEvent
 {

@@ -1,4 +1,4 @@
-﻿namespace Messaging.SoilMoistureEvents;
+﻿namespace Messaging.Contract;
 
 public class SoilMoistureEvent
 {

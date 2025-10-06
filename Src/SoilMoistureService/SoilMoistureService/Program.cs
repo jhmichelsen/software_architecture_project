@@ -1,4 +1,6 @@
 using MassTransit;
+using Messaging;
+using SoilMoisture.Application;
 
 namespace SoilMoistureService;
 
@@ -9,15 +11,14 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddScoped<ISoilMoistureService, SoilMoisture.Application.SoilMoistureService>();
+        builder.Services.AddScoped<SoilMoistureEventConsumer>();
         
-        builder.Services.AddControllers();
-
         var rabbitHost = builder.Configuration["RabbitMq:Host"] ?? "localhost";
         var rabbitPort = int.Parse(builder.Configuration["RabbitMq:Port"] ?? "5672");
         builder.Services.AddMassTransit(x =>
         {
+            x.AddConsumer<SoilMoistureEventConsumer>();
             x.UsingRabbitMq((context, cfg) =>
             {
                 cfg.Host(rabbitHost, "/", h =>
@@ -25,8 +26,14 @@ public class Program
                     h.Username("guest");
                     h.Password("guest");
                 });
+                cfg.ConfigureEndpoints(context);
             });
         });
+        
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+        
+        builder.Services.AddControllers();
         
         var app = builder.Build();
         app.UseSwagger();

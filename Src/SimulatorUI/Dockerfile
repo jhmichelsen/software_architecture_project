@@ -27,17 +27,17 @@ WORKDIR /src
 
 # Copy the project file first for better build caching
 # This allows Docker to cache NuGet restore layers separately from code changes.
-COPY ["SimulatorUI.csproj", "./"]
+COPY ["SimulatorUI/SimulatorUI.csproj", "SimulatorUI/"]
 
 # Restore NuGet dependencies
-RUN dotnet restore "SimulatorUI.csproj"
+RUN dotnet restore "SimulatorUI/SimulatorUI.csproj"
 
 # Copy the remaining project files into the container
 COPY . .
 
 # Build the application using the given configuration (Release or Debug)
 # The compiled output goes into /app/build
-RUN dotnet build "SimulatorUI.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "SimulatorUI/SimulatorUI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 
 # ----------------------------------------
@@ -51,7 +51,7 @@ ARG BUILD_CONFIGURATION=Release
 
 # Publish the app to /app/publish
 # The flag /p:UseAppHost=false prevents creating a platform-specific executable (.exe)
-RUN dotnet publish "SimulatorUI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "SimulatorUI/SimulatorUI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 
 # ----------------------------------------

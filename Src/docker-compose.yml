@@ -1,4 +1,3 @@
-#version: '3.9'
 services:
   rabbitmq:
     image: rabbitmq:3-management
@@ -38,7 +37,7 @@ services:
 
   simulatorui:
     build:
-      context: ./SimulatorUI/SimulatorUI
+      context: ./SimulatorUI
       dockerfile: Dockerfile
     container_name: simulatorui
     depends_on:
@@ -53,7 +52,7 @@ services:
 
   soilmoistureservice:
     build:
-      context: ./SoilMoistureService/SoilMoistureService
+      context: ./SoilMoistureService
       dockerfile: Dockerfile
     container_name: soilmoistureservice
     depends_on:

@@ -1,4 +1,4 @@
-﻿namespace Application.SoilMoisture;
+﻿namespace SoilMoisture.Application;
 
 public interface ISoilMoistureService
 {
