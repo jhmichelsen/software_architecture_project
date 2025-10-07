@@ -7,4 +7,5 @@ public class FactoryEntity
     [Key]
     public int Id { get; set; }
     public string Location { get; set; }
+    public List<GreenHouseEntity> GreenHouseEntities { get; set; }
 }

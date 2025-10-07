@@ -1,4 +1,5 @@
 using Data;
+using GreenhouseFactoryService.Seeder;
 using Microsoft.EntityFrameworkCore;
 
 namespace GreenhouseFactoryService;
@@ -19,6 +20,21 @@ public class Program
         builder.Services.AddControllers();
 
         var app = builder.Build();
+        
+        using (var scope = app.Services.CreateScope())
+        {
+            Console.WriteLine("Migration started");
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            db.Database.EnsureDeleted();
+            db.Database.Migrate();
+            Console.WriteLine("Migration done.");
+            
+            Console.WriteLine("Seeding database.");
+            var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            DataSeeder.Seeder(context);
+            Console.WriteLine("Seeding database done.");
+        }
+        
         app.UseSwagger();
         app.UseSwaggerUI();
         

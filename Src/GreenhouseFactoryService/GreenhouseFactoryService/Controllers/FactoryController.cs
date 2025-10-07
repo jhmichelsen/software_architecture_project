@@ -1,15 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GreenhouseFactoryService.Controllers;
 
 [ApiController]
 [Route("factory")]
-public class FactoryController(ILogger<FactoryController> logger) : ControllerBase
+public class FactoryController(ILogger<FactoryController> logger, AppDbContext context) : ControllerBase
 {
     [HttpGet("all")]
-    public IActionResult All()
+    public async Task<IActionResult> All()
     {
-        return Ok();
+        var factories = await context.Factories
+            .Include(f => f.GreenHouseEntities)
+            .ToListAsync();
+        
+        return Ok(factories);
     }
     
     [HttpGet("{id}")]

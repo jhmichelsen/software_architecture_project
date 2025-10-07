@@ -11,6 +11,19 @@ services:
     networks:
       - greenhouse-net
 
+  postgres-db:
+    image: postgres:18
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: greenhouse
+      POSTGRES_PASSWORD: greenhouse123
+      POSTGRES_DB: greenhouse
+    ports:
+      - "5432:5432"
+    networks:
+      - greenhouse-net
+
   greenhousefactoryui:
     build:
       context: ./GreenHouseFactoryUI/GreenHouseFactoryUI
@@ -30,10 +43,15 @@ services:
     container_name: greenhousefactoryservice
     depends_on:
       - rabbitmq
+      - postgres-db
     networks:
       - greenhouse-net
     ports:
       - "5002:8080"
+    environment:
+      - RabbitMq__Host=rabbitmq
+      - RabbitMq__Port=5672
+      - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=greenhouse;Username=greenhouse;Password=greenhouse123
 
   simulatorui:
     build:

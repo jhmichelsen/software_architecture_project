@@ -1,6 +1,8 @@
 # Development:
 - Install dotnet SDK 9
 - Install docker 28.4.0
+- PostgreSQL for local development of GreenhouseFactoryService
+- PgAdmin if you would like to see what's inside the database
 
 # Test code
 - Run a single project by clicking 'start' or similar

@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251006200615_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20251007174726_AddInitial")]
+    partial class AddInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,7 +49,7 @@ namespace Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("FactoryEntityId")
+                    b.Property<int?>("FactoryEntityId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -61,13 +61,14 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.GreenHouseEntity", b =>
                 {
-                    b.HasOne("Data.FactoryEntity", "FactoryEntity")
-                        .WithMany()
-                        .HasForeignKey("FactoryEntityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Data.FactoryEntity", null)
+                        .WithMany("GreenHouseEntities")
+                        .HasForeignKey("FactoryEntityId");
+                });
 
-                    b.Navigation("FactoryEntity");
+            modelBuilder.Entity("Data.FactoryEntity", b =>
+                {
+                    b.Navigation("GreenHouseEntities");
                 });
 #pragma warning restore 612, 618
         }
