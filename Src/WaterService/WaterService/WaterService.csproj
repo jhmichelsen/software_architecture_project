@@ -8,12 +8,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="MassTransit" Version="8.5.4" />
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.4" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.9"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Application\Application.csproj" />
+      <ProjectReference Include="..\Messaging\Messaging.csproj" />
     </ItemGroup>
 
     <ItemGroup>

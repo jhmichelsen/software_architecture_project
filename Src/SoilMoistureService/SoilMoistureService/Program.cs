@@ -13,6 +13,7 @@ public class Program
         // Add services to the container.
         builder.Services.AddScoped<ISoilMoistureService, SoilMoisture.Application.SoilMoistureService>();
         builder.Services.AddScoped<SoilMoistureEventConsumer>();
+        builder.Services.AddScoped<IWaterEventService, WaterEventProducer>();
         
         var rabbitHost = builder.Configuration["RabbitMq:Host"] ?? "localhost";
         var rabbitPort = int.Parse(builder.Configuration["RabbitMq:Port"] ?? "5672");

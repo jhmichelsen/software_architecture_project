@@ -8,6 +8,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Application\Application.csproj" />
+      <ProjectReference Include="..\Messaging.Contract\Messaging.Contract.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MassTransit" Version="8.5.4" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.4" />
     </ItemGroup>
 
 </Project>

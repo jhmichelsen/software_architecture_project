@@ -1,10 +1,13 @@
 ﻿namespace SoilMoisture.Application;
 
-public class SoilMoistureService : ISoilMoistureService
+public class SoilMoistureService(IWaterEventService waterEventService) : ISoilMoistureService
 {
-    public Task ProcessAsync()
+    public async Task ProcessAsync(int factoryId, int greenhouseId, int solMoisturePercentage)
     {
         Console.WriteLine("Processing SoilMoisture Service");
-        return Task.CompletedTask;
+        if (true)
+        {
+            await waterEventService.CreateWaterEventAsync(factoryId, greenhouseId, true);
+        }
     }
 }

@@ -2,5 +2,5 @@
 
 public interface ISoilMoistureService
 {
-    Task ProcessAsync();
+    Task ProcessAsync(int factoryId, int greenhouseId, int solMoisturePercentage);
 }

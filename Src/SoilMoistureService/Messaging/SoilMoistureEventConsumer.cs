@@ -9,6 +9,9 @@ public class SoilMoistureEventConsumer(ISoilMoistureService soilMoistureService)
     public async Task Consume(ConsumeContext<SoilMoistureEvent> context)
     {
         Console.WriteLine($"Received message: {context.Message.FactoryId} {context.Message.GreenHouseId} {context.Message.SolMoisturePercentage}");
-        await soilMoistureService.ProcessAsync();
+        await soilMoistureService.ProcessAsync(
+            context.Message.FactoryId, 
+            context.Message.GreenHouseId, 
+            context.Message.SolMoisturePercentage);
     }
 }
