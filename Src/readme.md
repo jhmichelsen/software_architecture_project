@@ -8,6 +8,10 @@
 - Run a single project by clicking 'start' or similar
 - Test all projects together docker compose up --build -d
 
+# Git
+- Before you commit any code checkout a feature branch and make a pull request to main
+- Make sure to run docker compose up --build -d and check that all services are running
+
 # Run projects
 - Open shell (powershell etc.)
 - Go to "software_architecture_project\Src"
