@@ -18,6 +18,18 @@ public class Program
         builder.Services.AddScoped<IWaterNotification, WaterNotification>();
         builder.Services.AddScoped<WaterEventConsumer>();
         builder.Services.AddSignalR();
+
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", policy =>
+            {
+                policy
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials()
+                    .SetIsOriginAllowed(_ => true); // tillader alle origins
+            });
+        });
         
         var rabbitHost = builder.Configuration["RabbitMq:Host"] ?? "localhost";
         var rabbitPort = int.Parse(builder.Configuration["RabbitMq:Port"] ?? "5672");
@@ -55,7 +67,10 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
+        
+        app.UseCors("AllowAll");
         app.MapHub<WaterHub>("/waterHub");
+        
         app.Run();
     }
 }

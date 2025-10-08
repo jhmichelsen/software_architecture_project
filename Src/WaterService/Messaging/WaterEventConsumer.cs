@@ -8,7 +8,7 @@ public class WaterEventConsumer(IWaterService waterService) : IConsumer<WaterEve
 {
     public async Task Consume(ConsumeContext<WaterEvent> context)
     {
-        Console.WriteLine($"Water event consumed {context.Message.FactoryId} {context.Message.GreenHouseId} {context.Message.WaterOn}");
+        Console.WriteLine($"WaterEventConsumer Water event consumed {context.Message.FactoryId} {context.Message.GreenHouseId} {context.Message.WaterOn}");
         await waterService.IsWaterOnAsync(context.Message.FactoryId, context.Message.GreenHouseId, context.Message.WaterOn);
     }
 }
