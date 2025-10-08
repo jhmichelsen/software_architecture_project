@@ -6,12 +6,12 @@ namespace WaterService.Notifications;
 
 public class WaterNotification(IHubContext<WaterHub> hubContext) : IWaterNotification
 {
-    public async Task IsWaterOnAsync(int factoryId, int greenhouseId, bool isWaterOn)
+    public async Task IsWaterOnAsync(int factoryId, int greenhouseId, bool waterOn)
     {
-        Console.WriteLine($"WaterNotification IsWaterOnAsync factoryId {factoryId} greenhouseId {greenhouseId} is water on {isWaterOn}");
-        /*await hubContext.Clients.All.SendAsync(
+        Console.WriteLine($"WaterNotification IsWaterOnAsync factoryId {factoryId} greenhouseId {greenhouseId} is water on {waterOn}");
+        await hubContext.Clients.All.SendAsync(
             "WaterStatusChanged",
-            new { factoryId, greenhouseId, isWaterOn = isWaterOn }
-        );*/
+            new { factoryId, greenhouseId, waterOn }
+        );
     }
 }

@@ -24,19 +24,6 @@ services:
     networks:
       - greenhouse-net
 
-  greenhousefactoryui:
-    build:
-      context: ./GreenHouseFactoryUI/GreenHouseFactoryUI
-      dockerfile: Dockerfile
-    container_name: greenhousefactoryui
-    depends_on:
-      - greenhousefactoryservice
-      - waterservice
-    networks:
-      - greenhouse-net
-    ports:
-      - "5001:8080"
-
   greenhousefactoryservice:
     build:
       context: ./GreenhouseFactoryService
@@ -99,6 +86,23 @@ services:
       - RabbitMq__Host=rabbitmq
       - RabbitMq__Port=5672
 
+  dashboard:
+    build:
+      context: ./Dashboard
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_FACTORY_API: http://host.docker.internal:5002
+        REACT_APP_WATER_API: http://host.docker.internal:5005
+    container_name: dashboard
+    depends_on:
+      - greenhousefactoryservice
+      - waterservice
+    networks:
+      - greenhouse-net
+    ports:
+      - "5006:80"
+
+      
 networks:
   greenhouse-net:
     driver: bridge

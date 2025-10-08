@@ -27,7 +27,7 @@ public class Program
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()
-                    .SetIsOriginAllowed(_ => true); // tillader alle origins
+                    .SetIsOriginAllowed(_ => true);
             });
         });
         

@@ -14,6 +14,18 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", policy =>
+            {
+                policy
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials()
+                    .SetIsOriginAllowed(_ => true);
+            });
+        });
+        
         builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
         
@@ -45,13 +57,12 @@ public class Program
         using (var scope = app.Services.CreateScope())
         {
             Console.WriteLine("Migration started");
-            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            db.Database.EnsureDeleted();
-            db.Database.Migrate();
+            var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            context.Database.EnsureDeleted();
+            context.Database.Migrate();
             Console.WriteLine("Migration done.");
             
             Console.WriteLine("Seeding database.");
-            var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             DataSeeder.Seeder(context);
             Console.WriteLine("Seeding database done.");
         }
@@ -70,6 +81,8 @@ public class Program
 
         app.MapControllers();
 
+        app.UseCors("AllowAll");
+        
         app.Run();
     }
 }

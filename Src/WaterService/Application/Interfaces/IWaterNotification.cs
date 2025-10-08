@@ -2,5 +2,5 @@
 
 public interface IWaterNotification
 {
-    Task IsWaterOnAsync(int factoryId, int greenhouseId, bool isWaterOn);
+    Task IsWaterOnAsync(int factoryId, int greenhouseId, bool waterOn);
 }
