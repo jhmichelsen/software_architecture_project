@@ -26,6 +26,7 @@ public class Program
                     h.Username("guest");
                     h.Password("guest");
                 });
+                cfg.ConfigureEndpoints(context);
             });
         });
         

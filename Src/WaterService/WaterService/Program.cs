@@ -43,7 +43,10 @@ public class Program
                     h.Username("guest");
                     h.Password("guest");
                 });
-                cfg.ConfigureEndpoints(context);
+                cfg.ReceiveEndpoint("water-service-queue", e =>
+                {
+                    e.ConfigureConsumer<WaterEventConsumer>(context);
+                });
             });
         });
         

@@ -1,5 +1,6 @@
 using MassTransit;
 using Messaging;
+using Messaging.Contract;
 using SoilMoisture.Application;
 
 namespace SoilMoistureService;
@@ -27,7 +28,10 @@ public class Program
                     h.Username("guest");
                     h.Password("guest");
                 });
-                cfg.ConfigureEndpoints(context);
+                cfg.ReceiveEndpoint("soil-moisture-service-queue", e =>
+                {
+                    e.ConfigureConsumer<SoilMoistureEventConsumer>(context);
+                });
             });
         });
         
