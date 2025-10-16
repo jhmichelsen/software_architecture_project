@@ -110,11 +110,10 @@ jobs:
       id-token: write
 
     steps:
-      - name: Download compiled app
-        uses: actions/download-artifact@v4
+      - name: Checkout repository for Docker
+        uses: actions/checkout@v4
         with:
-          name: compiled-app
-          path: .
+          ref: ${{ github.event.inputs.branch || 'main' }}
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
@@ -148,6 +147,6 @@ jobs:
       - name: Example deploy step
         run: |
           echo "Deployment step placeholder."
-          echo "For example, you could deploy all services to a VM like this:"
+          echo "For example, deploy all services to a VM like this:"
           echo "ssh user@your-server 'docker pull ghcr.io/your-username/greenhousefactoryservice:${{ github.ref_name }}-${{ github.sha }} && docker-compose up -d'"
-          echo "Repeat for other services as needed, or use a CI/CD deployment tool."
+          echo "Repeat for other services, or use a CI/CD deployment tool."
