@@ -1,0 +1,139 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_TAG: latest
+
+jobs:
+  # Clone repository and create artifact
+  clone:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Upload source as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-code
+          path: .
+
+  # Code analysis (linting / static analysis)
+  code-analysis:
+    runs-on: ubuntu-latest
+    needs: clone
+    steps:
+      - name: Download source
+        uses: actions/download-artifact@v4
+        with:
+          name: source-code
+          path: .
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Run dotnet format (code style check)
+        run: dotnet format --verify-no-changes || true
+
+  # Build application
+  build:
+    runs-on: ubuntu-latest
+    needs: code-analysis
+    steps:
+      - name: Download source
+        uses: actions/download-artifact@v4
+        with:
+          name: source-code
+          path: .
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore dependencies
+        run: |
+          find Src -name "*.csproj" -exec dotnet restore {} \;
+
+      - name: Build application
+        run: |
+          find Src -name "*.csproj" -exec dotnet build {} --configuration Release --no-restore \;
+
+      - name: Upload compiled app as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-app
+          path: Src
+
+  # Test application (placeholder for future tests)
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download compiled app
+        uses: actions/download-artifact@v4
+        with:
+          name: compiled-app
+          path: Src
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Run tests (placeholder)
+        run: echo "No tests added yet. Add dotnet test steps here later."
+
+  # Build and push Docker images
+  docker:
+    runs-on: ubuntu-latest
+    needs: test
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    steps:
+      - name: Download compiled app
+        uses: actions/download-artifact@v4
+        with:
+          name: compiled-app
+          path: .
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker images
+        run: |
+          # Define image list
+          SERVICES=("GreenhouseFactoryService" "SoilMoistureService" "WaterService" "SimulatorUI" "Dashboard")
+
+          for SERVICE in "${SERVICES[@]}"; do
+            IMAGE_NAME="${{ env.REGISTRY }}/${{ github.repository_owner }}/${SERVICE,,}:${{ env.IMAGE_TAG }}"
+            echo "Building and pushing $SERVICE as $IMAGE_NAME"
+            docker build -t "$IMAGE_NAME" -f "Src/$SERVICE/Dockerfile" "Src/$SERVICE"
+            docker push "$IMAGE_NAME"
+          done
+
+  # Deploy (placeholder)
+  deploy:
+    runs-on: ubuntu-latest
+    needs: docker
+    steps:
+      - name: Example deploy step
+        run: |
+          echo "Deployment step placeholder."
+          echo "For example, use SSH or a GitHub Action to deploy containers on your VM:"
+          echo "ssh user@your-server 'docker pull ghcr.io/your-username/greenhousefactoryservice:latest && docker-compose up -d'"
