@@ -1,14 +1,20 @@
-name: CI/CD Pipeline
+name: CI/CD Workflow
 
 on:
   push:
     branches:
       - main
   pull_request:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to run the workflow on"
+        required: true
+        default: "main"
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_TAG: latest
+  IMAGE_TAG: ${{ github.ref_name }}-${{ github.sha }}
 
 jobs:
   # Clone repository and create artifact
@@ -17,6 +23,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch || 'main' }}
 
       - name: Upload source as artifact
         uses: actions/upload-artifact@v4
@@ -121,10 +129,15 @@ jobs:
           SERVICES=("GreenhouseFactoryService" "SoilMoistureService" "WaterService" "SimulatorUI" "Dashboard")
 
           for SERVICE in "${SERVICES[@]}"; do
-            IMAGE_NAME="${{ env.REGISTRY }}/${{ github.repository_owner }}/${SERVICE,,}:${{ env.IMAGE_TAG }}"
-            echo "Building and pushing $SERVICE as $IMAGE_NAME"
-            docker build -t "$IMAGE_NAME" -f "Src/$SERVICE/Dockerfile" "Src/$SERVICE"
-            docker push "$IMAGE_NAME"
+            IMAGE_BASE="${{ env.REGISTRY }}/${{ github.repository_owner }}/${SERVICE,,}"
+            COMMIT_TAG="${{ github.ref_name }}-${{ github.sha }}"
+            echo "Building and pushing $SERVICE as:"
+            echo "  $IMAGE_BASE:$COMMIT_TAG"
+            echo "  $IMAGE_BASE:latest"
+
+            docker build -t "$IMAGE_BASE:$COMMIT_TAG" -t "$IMAGE_BASE:latest" -f "Src/$SERVICE/Dockerfile" "Src/$SERVICE"
+            docker push "$IMAGE_BASE:$COMMIT_TAG"
+            docker push "$IMAGE_BASE:latest"
           done
 
   # Deploy (placeholder)
@@ -135,5 +148,6 @@ jobs:
       - name: Example deploy step
         run: |
           echo "Deployment step placeholder."
-          echo "For example, use SSH or a GitHub Action to deploy containers on your VM:"
-          echo "ssh user@your-server 'docker pull ghcr.io/your-username/greenhousefactoryservice:latest && docker-compose up -d'"
+          echo "For example, you could deploy all services to a VM like this:"
+          echo "ssh user@your-server 'docker pull ghcr.io/your-username/greenhousefactoryservice:${{ github.ref_name }}-${{ github.sha }} && docker-compose up -d'"
+          echo "Repeat for other services as needed, or use a CI/CD deployment tool."
