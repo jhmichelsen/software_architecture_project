@@ -106,8 +106,8 @@ services:
       context: ./Dashboard
       dockerfile: Dockerfile
       args:
-        REACT_APP_FACTORY_API: http://host.docker.internal:5002
-        REACT_APP_WATER_API: http://host.docker.internal:5005
+        REACT_APP_FACTORY_API: http://localhost:5002
+        REACT_APP_WATER_API: http://localhost:5005
     container_name: dashboard
     depends_on:
       greenhousefactoryservice:
