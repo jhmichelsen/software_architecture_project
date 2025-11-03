@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.Waters;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GreenhouseFactoryService.Controllers;
 
 [ApiController]
 [Route("green-house")]
-public class GreenHouseController(ILogger<GreenHouseController> logger) : ControllerBase
+public class GreenHouseController(ILogger<GreenHouseController> logger, IWaterService waterService) : ControllerBase
 {
     [HttpGet("all")]
     public IActionResult All()
@@ -24,9 +25,10 @@ public class GreenHouseController(ILogger<GreenHouseController> logger) : Contro
         return Ok();
     }
     
-    [HttpPut("update/{id}")]
-    public IActionResult Update(int id)
+    [HttpPut("factory/{factoryId}/greenhouse/{greenhouseId}/water-on/{waterOn}/update")]
+    public IActionResult Update(int factoryId, int greenhouseId, bool waterOn)
     {
+        waterService.AddWaterAsync(factoryId, greenhouseId, waterOn);
         return Ok();
     }
     

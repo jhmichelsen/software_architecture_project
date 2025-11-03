@@ -5,6 +5,8 @@ using GreenhouseFactoryService.Seeder;
 using MassTransit;
 using Messaging;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
+using Polly;
 
 namespace GreenhouseFactoryService;
 
@@ -26,15 +28,45 @@ public class Program
             });
         });
         
-        builder.Services.AddDbContext<AppDbContext>(options =>
-            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+        builder.Services.AddDbContextFactory<AppDbContext>(options =>
+            options.UseNpgsql(
+                builder.Configuration.GetConnectionString("DefaultConnection"),
+                npgsqlOptions =>
+                {
+                    npgsqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 3,
+                        maxRetryDelay: TimeSpan.FromSeconds(20),
+                        errorCodesToAdd: null
+                    );
+                }
+            )
+        );
         
-        // Add services to the container.
         builder.Services.AddSwaggerGen();
         builder.Services.AddControllers();
+        
         builder.Services.AddScoped<WaterEventConsumer>();
         builder.Services.AddScoped<IWaterRepository, WaterRepository>();
         builder.Services.AddScoped<IWaterService,  WaterService>();
+        
+        var retryPolicy = Policy
+            .Handle<NpgsqlException>()
+            .Or<TimeoutException>()
+            .WaitAndRetryAsync(
+                retryCount: 3,
+                sleepDurationProvider: attempt => attempt switch
+                {
+                    1 => TimeSpan.FromSeconds(10),
+                    2 => TimeSpan.FromSeconds(20),
+                    3 => TimeSpan.FromSeconds(30),
+                    _ => TimeSpan.FromSeconds(10)
+                },
+                onRetry: (exception, ts, attempt, context) =>
+                {
+                    Console.WriteLine($"Retry {attempt} after {ts.TotalSeconds}s due to: {exception.Message}", ConsoleColor.Red);
+                });
+        
+        builder.Services.AddSingleton(retryPolicy);
 
         var rabbitHost = builder.Configuration["RabbitMq:Host"] ?? "localhost";
         var rabbitPort = int.Parse(builder.Configuration["RabbitMq:Port"] ?? "5672");
