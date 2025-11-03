@@ -8,15 +8,22 @@ public class WaterRepository(AppDbContext context) : IWaterRepository
     {
         
         var factory = await context.Factories.FirstOrDefaultAsync(f => f.Id == factoryId);
-        if (factory != null)
+        if (factory == null)
         {
-            var greenhouse =  await context.GreenHouses.FirstOrDefaultAsync(g => g.Id == greenhouseId);
-            if (greenhouse != null)
-            {
-                greenhouse.WaterOn = waterOn;
-                await context.SaveChangesAsync();
-                Console.WriteLine($"Water changed for factoryId {factoryId} greenhouseId {greenhouseId} waterOn {waterOn}");
-            }
+            Console.WriteLine($"Factory not found {factoryId}");
+            return;
         }
+        
+        var greenhouse =  await context.GreenHouses.FirstOrDefaultAsync(g => g.Id == greenhouseId);
+        if (greenhouse == null)
+        {
+            Console.WriteLine($"Greenhouse not found {greenhouseId}");
+            return;
+        }
+        
+        greenhouse.WaterOn = waterOn;
+        await context.SaveChangesAsync();
+        
+        Console.WriteLine($"Water status changed for factoryId {factoryId} greenhouseId {greenhouseId} waterOn {waterOn}");
     }
 }
