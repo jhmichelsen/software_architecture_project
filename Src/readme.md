@@ -3,10 +3,16 @@
 - Install docker 28.4.0
 - PostgreSQL for local development of GreenhouseFactoryService
 - PgAdmin if you would like to see what's inside the database
+- Install K6 for performance testing
 
 # Test code
 - Run a single project by clicking 'start' or similar
 - Test all projects together docker compose up --build -d
+
+# Performance testing
+- Go to /Src/PerformanceTest
+- Run k6 run loadtest.js
+- Modify loadtest.js based on number of users/machines and timeframe
 
 # Git
 - Before you commit any code checkout a feature branch and make a pull request to main
