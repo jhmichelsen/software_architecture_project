@@ -18,6 +18,14 @@
 - Before you commit any code checkout a feature branch and make a pull request to main
 - Make sure to run docker compose up --build -d and check that all services are running
 
+# Documentation
+- Documentation can be found in "Documentation" folder.
+- To generate sequence diagram using PlantUML
+	- Download PlantUML
+	- Open for example "SequenceDiagram.puml"
+	- Do your edits
+	- Generate image using "plantml SequenceDiagram.puml"
+
 # Run projects
 - Open shell (powershell etc.)
 - Go to "software_architecture_project\Src"

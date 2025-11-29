@@ -1,0 +1,44 @@
+@startuml
+skinparam sequence {
+    ParticipantBackgroundColor #eef2f7
+    ParticipantBorderColor #4a4a4a
+    ActorBorderColor #4a4a4a
+    ActorBackgroundColor #eef2f7
+}
+
+participant Dashboard <<UI>>
+participant "Greenhouse FactoryService" as FactoryService <<Microservice>>
+participant SimulatorUI <<UI>>
+participant SoilMoistureService <<Microservice>>
+participant WaterService <<Microservice>>
+participant "RabbitMQ Bus" as MessageBus <<MessageBus>>
+
+' --- Init factories ---
+FactoryService -> FactoryService: Auto-generate factories\nwith greenhouses
+
+Dashboard -> FactoryService: GET /factory/all
+
+activate FactoryService
+deactivate FactoryService
+
+FactoryService --> Dashboard
+deactivate FactoryService
+
+
+' --- Moisture events ---
+SimulatorUI --> "RabbitMQ Bus": SoilMoistureEvent(factoryId,\ngreenhouseId, percentage)
+SoilMoistureService --> WaterService: SoilMoistureEvent(...)
+WaterService -> SoilMoistureService: WaterOn()
+
+' --- Publish water event ---
+WaterService --> MessageBus: Publish WaterEvent(...)
+MessageBus --> WaterService: Ack
+
+
+' --- Update water status ---
+Dashboard --> FactoryService: UpdateWaterStatus(greenhouseId)
+activate FactoryService
+FactoryService --> Dashboard
+deactivate FactoryService
+
+@enduml
