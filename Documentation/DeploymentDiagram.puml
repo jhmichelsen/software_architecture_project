@@ -1,0 +1,45 @@
+@startuml
+!define AWSPUML https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v14.0/LATEST/AWSPUML
+skinparam backgroundColor #1e1e1e
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam node {
+    BackgroundColor #2e2e2e
+    BorderColor white
+    FontColor white
+}
+
+node "Docker Host" {
+    node "Simulator UI\n.NET" as SimulatorUI {
+    }
+    node "SoilMoistureService\n.NET" as SoilService {
+    }
+    node "WaterService\n.NET" as WaterService {
+    }
+    node "GreenHouse FactoryService\n.NET" as GreenHouseService {
+    }
+    node "Dashboard\nReact" as Dashboard {
+    }
+    database "PostgreSQL\nDocker\nPort 5432" as DB {
+    }
+    node "MessageBus\nRabbitMQ\nPort 5672" as RabbitMQ {
+    }
+}
+
+SimulatorUI --> RabbitMQ : AMQP Port 5672
+
+SoilService --> RabbitMQ : AMQP Port 5672
+RabbitMQ --> SoilService : AMQP Port 5672
+
+WaterService --> RabbitMQ : AMQP Port 5672
+RabbitMQ --> WaterService : AMQP Port 5672
+Dashboard --> WaterService : HTTP/WebSockets Port 80
+
+GreenHouseService --> RabbitMQ : AMQP Port 5672
+RabbitMQ --> GreenHouseService : AMQP Port 5672
+
+Dashboard --> GreenHouseService : HTTP
+
+GreenHouseService --> DB : TCP Port 5432
+
+@enduml
