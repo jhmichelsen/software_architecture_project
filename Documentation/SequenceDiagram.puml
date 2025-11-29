@@ -7,38 +7,38 @@ skinparam sequence {
 }
 
 participant Dashboard <<UI>>
-participant "Greenhouse FactoryService" as FactoryService <<Microservice>>
+participant "GreenhouseFactoryService" as FactoryService <<Microservice>>
 participant SimulatorUI <<UI>>
 participant SoilMoistureService <<Microservice>>
 participant WaterService <<Microservice>>
 participant "RabbitMQ Bus" as MessageBus <<MessageBus>>
 
 ' --- Init factories ---
+activate FactoryService
 FactoryService -> FactoryService: Auto-generate factories\nwith greenhouses
+deactivate FactoryService
 
 Dashboard -> FactoryService: GET /factory/all
 
 activate FactoryService
-deactivate FactoryService
-
 FactoryService --> Dashboard
 deactivate FactoryService
 
+SimulatorUI --> MessageBus: SoilMoistureEvent(factoryId,\ngreenhouseId, percentage)
+MessageBus --> SoilMoistureService: SoilMoistureEvent(factoryId,\ngreenhouseId, percentage)
 
-' --- Moisture events ---
-SimulatorUI --> "RabbitMQ Bus": SoilMoistureEvent(factoryId,\ngreenhouseId, percentage)
-SoilMoistureService --> WaterService: SoilMoistureEvent(...)
-WaterService -> SoilMoistureService: WaterOn()
+activate SoilMoistureService
+SoilMoistureService --> SoilMoistureService: ProcessAsync(int factoryId, \nint greenhouseId, \nsoilMoisturePercentage)
+deactivate SoilMoistureService
 
-' --- Publish water event ---
-WaterService --> MessageBus: Publish WaterEvent(...)
-MessageBus --> WaterService: Ack
+SoilMoistureService --> MessageBus: WaterEvent(int factoryId, \n int greenhouseId,\n bool waterOn)
 
+MessageBus --> FactoryService: WaterEvent(int factoryId,\n int greenhouseId,\n bool waterOn)
 
-' --- Update water status ---
-Dashboard --> FactoryService: UpdateWaterStatus(greenhouseId)
 activate FactoryService
-FactoryService --> Dashboard
+FactoryService --> FactoryService: AddWaterAsync(int factoryId, \n int greenhouseId, \n bool waterOn)
 deactivate FactoryService
+
+WaterService --> Dashboard: WaterStatusChanged(int factoryId,\n int greenhouseId,\nbool waterOn)
 
 @enduml
