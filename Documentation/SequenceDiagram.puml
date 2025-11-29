@@ -39,6 +39,8 @@ activate FactoryService
 FactoryService --> FactoryService: AddWaterAsync(int factoryId, \n int greenhouseId, \n bool waterOn)
 deactivate FactoryService
 
+MessageBus --> WaterService: WaterEvent(int factoryId, \n int greenhouseId,\n bool waterOn)
+
 WaterService --> Dashboard: WaterStatusChanged(int factoryId,\n int greenhouseId,\nbool waterOn)
 
 @enduml
