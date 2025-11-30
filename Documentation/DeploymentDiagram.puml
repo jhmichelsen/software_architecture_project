@@ -1,24 +1,15 @@
 @startuml
-!define AWSPUML https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v14.0/LATEST/AWSPUML
-skinparam backgroundColor #1e1e1e
-skinparam componentStyle rectangle
-skinparam shadowing false
-skinparam node {
-    BackgroundColor #2e2e2e
-    BorderColor white
-    FontColor white
-}
 
 node "Docker Host" {
-    node "Simulator UI\n.NET" as SimulatorUI {
+    node "Simulator UI\n.NET\nPort 5003" as SimulatorUI {
     }
-    node "SoilMoistureService\n.NET" as SoilService {
+    node "SoilMoistureService\n.NET\nPort 5004" as SoilService {
     }
-    node "WaterService\n.NET" as WaterService {
+    node "WaterService\n.NET\nPort 5005" as WaterService {
     }
-    node "GreenHouse FactoryService\n.NET" as GreenHouseService {
+    node "GreenHouseFactoryService\n.NET\nPort 5002" as GreenHouseService {
     }
-    node "Dashboard\nReact" as Dashboard {
+    node "Dashboard\nReact\nPort 5006" as Dashboard {
     }
     database "PostgreSQL\nDocker\nPort 5432" as DB {
     }
@@ -26,20 +17,16 @@ node "Docker Host" {
     }
 }
 
-SimulatorUI --> RabbitMQ : AMQP Port 5672
+SimulatorUI --> RabbitMQ : AMQP
 
-SoilService --> RabbitMQ : AMQP Port 5672
-RabbitMQ --> SoilService : AMQP Port 5672
+SoilService --> RabbitMQ : AMQP
+RabbitMQ --> SoilService : AMQP
 
-WaterService --> RabbitMQ : AMQP Port 5672
-RabbitMQ --> WaterService : AMQP Port 5672
-Dashboard --> WaterService : HTTP/WebSockets Port 80
+RabbitMQ --> WaterService : AMQP
+WaterService -> Dashboard : HTTP WebSockets Port 80
 
-GreenHouseService --> RabbitMQ : AMQP Port 5672
-RabbitMQ --> GreenHouseService : AMQP Port 5672
-
-Dashboard --> GreenHouseService : HTTP
-
+RabbitMQ --> GreenHouseService : AMQP
 GreenHouseService --> DB : TCP Port 5432
+Dashboard --> GreenHouseService : HTTP
 
 @enduml
