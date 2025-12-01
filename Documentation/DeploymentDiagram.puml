@@ -26,7 +26,7 @@ RabbitMQ --> WaterService : AMQP
 WaterService -> Dashboard : HTTP WebSockets Port 80
 
 RabbitMQ --> GreenHouseService : AMQP
-GreenHouseService --> DB : TCP Port 5432
+GreenHouseService --> DB : TCP
 Dashboard --> GreenHouseService : HTTP
 
 @enduml

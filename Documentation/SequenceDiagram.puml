@@ -36,11 +36,11 @@ SoilMoistureService --> MessageBus: WaterEvent(int factoryId, \n int greenhouseI
 MessageBus --> FactoryService: WaterEvent(int factoryId,\n int greenhouseId,\n bool waterOn)
 
 activate FactoryService
-FactoryService --> FactoryService: AddWaterAsync(int factoryId, \n int greenhouseId, \n bool waterOn)
+FactoryService -> FactoryService: AddWaterAsync(int factoryId, \n int greenhouseId, \n bool waterOn)
 deactivate FactoryService
 
 MessageBus --> WaterService: WaterEvent(int factoryId, \n int greenhouseId,\n bool waterOn)
 
-WaterService --> Dashboard: WaterStatusChanged(int factoryId,\n int greenhouseId,\nbool waterOn)
+WaterService -> Dashboard: WaterStatusChanged(int factoryId,\n int greenhouseId,\nbool waterOn)
 
 @enduml
