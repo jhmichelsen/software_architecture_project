@@ -1,0 +1,21 @@
+@startuml
+package "Microservice\nSoilMoistureService" {
+
+  package "Domain" {
+  }
+
+  package "Application" {
+  }
+
+  package "Messaging" {
+  }
+
+  package "SoilMoistureService" {
+  }
+}
+
+Application --> Domain
+Messaging --> Application
+SoilMoistureService --> Application
+
+@enduml
