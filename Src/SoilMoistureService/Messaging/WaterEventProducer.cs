@@ -4,7 +4,7 @@ using SoilMoisture.Application;
 
 namespace Messaging;
 
-public class WaterEventProducer(IPublishEndpoint publisher) : IWaterEventService
+public class WaterEventProducer(IPublishEndpoint publisher) : IWaterEventProducer
 {
     public async Task CreateWaterEventAsync(int factoryId, int greenhouseId, bool waterOn)
     {

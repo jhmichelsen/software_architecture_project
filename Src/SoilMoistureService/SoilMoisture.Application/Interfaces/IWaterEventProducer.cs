@@ -1,6 +1,6 @@
 ﻿namespace SoilMoisture.Application;
 
-public interface IWaterEventService
+public interface IWaterEventProducer
 {
     Task CreateWaterEventAsync(int factoryId, int greenhouseId, bool waterOn);
 }

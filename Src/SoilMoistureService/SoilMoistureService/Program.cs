@@ -1,7 +1,8 @@
 using MassTransit;
 using Messaging;
-using Messaging.Contract;
 using SoilMoisture.Application;
+using SoilMoisture.Application.SoilMoisture;
+using SoilMoisture.Application.Water;
 
 namespace SoilMoistureService;
 
@@ -12,9 +13,10 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddScoped<ISoilMoistureService, SoilMoisture.Application.SoilMoistureService>();
+        builder.Services.AddScoped<ISoilMoistureService, SoilMoisture.Application.SoilMoisture.SoilMoistureService>();
+        builder.Services.AddScoped<ICreateWaterService, CreateCreateWaterService>();
         builder.Services.AddScoped<SoilMoistureEventConsumer>();
-        builder.Services.AddScoped<IWaterEventService, WaterEventProducer>();
+        builder.Services.AddScoped<IWaterEventProducer, WaterEventProducer>();
         
         var rabbitHost = builder.Configuration["RabbitMq:Host"] ?? "localhost";
         var rabbitPort = int.Parse(builder.Configuration["RabbitMq:Port"] ?? "5672");
