@@ -14,6 +14,11 @@ public class SoilMoistureService(ICreateWaterService createWaterService) : ISoil
             {
                 await createWaterService.CreateWaterEventAsync(factory.Id, greenhouse.Id, true);
             }
+
+            if (greenhouse.SolMoisturePercentage > 50)
+            {
+                await createWaterService.CreateWaterEventAsync(factory.Id, greenhouse.Id, false);
+            }
         }
     }
 }
