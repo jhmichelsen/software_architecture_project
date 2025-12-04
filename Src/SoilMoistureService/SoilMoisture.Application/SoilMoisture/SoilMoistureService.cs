@@ -10,12 +10,12 @@ public class SoilMoistureService(ICreateWaterService createWaterService) : ISoil
         Console.WriteLine("Processing GetGetSoilMoistureService");
         foreach (var greenhouse in factory.Greenhouses)
         {
-            if (greenhouse.SolMoisturePercentage < 20)
+            if (greenhouse.SolMoisturePercentage < 50)
             {
                 await createWaterService.CreateWaterEventAsync(factory.Id, greenhouse.Id, true);
             }
 
-            if (greenhouse.SolMoisturePercentage > 50)
+            if (greenhouse.SolMoisturePercentage > 80)
             {
                 await createWaterService.CreateWaterEventAsync(factory.Id, greenhouse.Id, false);
             }
