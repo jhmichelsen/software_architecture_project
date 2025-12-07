@@ -39,10 +39,10 @@ jobs:
           name: repository-artifacts
           path: .
 
-  # Code analysis
+  # Code analysis (linting / static analysis)
   code-analysis:
     runs-on: ubuntu-latest
-    needs: clone-repository
+    needs: clone
     steps:
       - name: Download source
         uses: actions/download-artifact@v4
@@ -55,14 +55,13 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
-      - name: Run code analysis (dotnet format)
+      - name: Run dotnet format (code style check)
         run: dotnet format --verify-no-changes || true
 
   # Build application
-  build-application:
+  build:
     runs-on: ubuntu-latest
     needs: code-analysis
-
     steps:
       - name: Download source
         uses: actions/download-artifact@v4
@@ -83,22 +82,21 @@ jobs:
         run: |
           find Src -name "*.csproj" -exec dotnet build {} --configuration Release --no-restore \;
 
-      - name: Upload build artifacts
+      - name: Upload compiled app as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifacts
+          name: compiled-app
           path: Src
 
-  # Test application
-  test-application:
+  # Test application (placeholder for future tests)
+  test:
     runs-on: ubuntu-latest
-    needs: build-application
-
+    needs: build
     steps:
       - name: Download compiled app
         uses: actions/download-artifact@v4
         with:
-          name: build-artifacts
+          name: compiled-app
           path: Src
 
       - name: Setup .NET
@@ -106,10 +104,10 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
-      - name: Run tests
-        run: echo "No tests added yet. Add dotnet test here later."
+      - name: Run tests (placeholder)
+        run: echo "No tests added yet. Add dotnet test steps here later."
 
-  # Job for compiling groupReport-PDF from latex source files and uploading as artifact 
+   # Job for compiling groupReport-PDF from latex source files and uploading as artifact 
   compile-latex-groupReport:
     runs-on: ubuntu-latest
     needs: clone-repository
@@ -156,8 +154,8 @@ jobs:
           name: GroupReport-pdf 
           path: handin/
 
-
-# Job for creating handin artifact, this zip file will contain your repo, groupreportPDF, and build artifact if any
+  
+  # Job for creating handin artifact, this zip file will contain your repo, groupreportPDF, and build artifact if any
   upload-handin-artifacts:
     runs-on: ubuntu-latest
     needs: [build-application,compile-latex-groupReport]
