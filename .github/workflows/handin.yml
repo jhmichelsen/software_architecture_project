@@ -113,27 +113,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Cache LaTeX packages
-        id: latex-cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            /usr/share/texlive/
-          key: ${{ runner.os }}-texlive-v4
-
-      - name: Install LaTeX packages
-        if: steps.latex-cache.outputs.cache-hit != 'true'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y texlive texlive-science texlive-xetex
-
       - name: Create handin folder
         run: mkdir handin/
 
-      - name: Compile LaTeX document
-        run: |
-          cd report/GroupTemplate
-          xelatex -synctex=1 -interaction=nonstopmode main.tex
+      - name: Compile LaTeX document using latex-action
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+          working_directory: report/GroupTemplate
+          latexmk_shell_escape: true
+          latex_engine: xelatex
 
       - name: Rename compiled PDF
         run: |
