@@ -14,8 +14,8 @@ on:
 
 env:
   DOCKER_IMAGE_NAME: lowercase-image-name
-  PROJECT_NAME: ProjectName
-  GROUP_NUMBER: GroupNumber
+  PROJECT_NAME: SmartGreenhouseFarming
+  GROUP_NUMBER: 13
 
 jobs:
 
