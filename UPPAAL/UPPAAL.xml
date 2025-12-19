@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Channels
+chan measure;
+chan water_on;
+chan water_off;
+
+// Variables
+int moisture = 60;   // initial moisture (change in simulation)
+
+// Constants
+const int LOW = 50;
+const int HIGH = 80;
+
+// Clocks (optional, but good)
+clock sClock;
+clock cClock;
+</declaration>
+	<template>
+		<name x="5" y="5">Sensor</name>
+		<location id="id0" x="-178" y="-187">
+			<name x="-188" y="-221">Idle</name>
+		</location>
+		<location id="id1" x="-51" y="119">
+			<name x="-61" y="85">SendOn</name>
+		</location>
+		<location id="id2" x="221" y="-93">
+			<name x="211" y="-127">SendOff</name>
+		</location>
+		<init ref="id0"/>
+		<transition id="id3">
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="136" y="-17">measure?</label>
+			<nail x="93" y="59"/>
+		</transition>
+		<transition id="id4">
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-246" y="51">measure?</label>
+			<nail x="-297" y="17"/>
+		</transition>
+		<transition id="id5">
+			<source ref="id0"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-34" y="-212">moisture &gt; HIGH</label>
+			<label kind="synchronisation" x="-34" y="-187">water_off!</label>
+			<label kind="assignment" x="-34" y="-161">sClock = 0</label>
+		</transition>
+		<transition id="id6">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-160" y="-68">moisture &lt; LOW</label>
+			<label kind="synchronisation" x="-160" y="-51">water_on!</label>
+			<label kind="assignment" x="-160" y="-34">sClock = 0</label>
+		</transition>
+	</template>
+	<template>
+		<name>Controller</name>
+		<declaration>clock cClock;
+const int TIMEOUT = 3;
+</declaration>
+		<location id="id7" x="-246" y="-374">
+			<name x="-256" y="-408">Idle</name>
+		</location>
+		<location id="id8" x="-102" y="-51">
+			<name x="-112" y="-85">Watering</name>
+		</location>
+		<location id="id9" x="110" y="-170">
+			<name x="100" y="-204">NotWatering</name>
+		</location>
+		<init ref="id7"/>
+		<transition id="id10">
+			<source ref="id9"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="34" y="-399">measure!</label>
+			<nail x="110" y="-382"/>
+		</transition>
+		<transition id="id11">
+			<source ref="id8"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-322" y="-119">measure!</label>
+			<nail x="-340" y="-153"/>
+		</transition>
+		<transition id="id12">
+			<source ref="id7"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-34" y="-263">water_off?</label>
+			<label kind="assignment" x="-34" y="-246">cClock = 0</label>
+		</transition>
+		<transition id="id13">
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="-169" y="-199">water_on?</label>
+			<label kind="assignment" x="-169" y="-182">cClock = 0</label>
+		</transition>
+	</template>
+	<system>sensor = Sensor();
+controller = Controller();
+
+system sensor, controller;
+</system>
+	<queries>
+		<query>
+			<formula>A[] not (controller.NotWatering &amp;&amp; moisture &lt; LOW)
+
+</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2025-12-11 23:12:10 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>A[] not (controller.Watering &amp;&amp; moisture &gt; HIGH)
+</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2025-12-11 23:12:37 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>A[] not (moisture &lt; LOW &amp;&amp; controller.NotWatering)
+
+
+
+</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2025-12-11 23:24:09 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>A[] not (moisture &gt; HIGH &amp;&amp; controller.Watering)
+</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2025-12-11 23:24:29 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>A[] not deadlock
+</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2025-12-11 23:24:50 +0100">
+			</result>
+		</query>
+		<query>
+			<formula/>
+			<comment/>
+		</query>
+	</queries>
+</nta>
